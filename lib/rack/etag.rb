@@ -29,7 +29,7 @@ module Rack
         body = Rack::BodyProxy.new(new_body) do
           original_body.close if original_body.respond_to?(:close)
         end
-        headers[ETAG_STRING] = %("#{digest}") if digest
+        headers[ETAG_STRING] = %(W/"#{digest}") if digest
       end
 
       unless headers[CACHE_CONTROL]
