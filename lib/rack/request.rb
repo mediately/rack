@@ -16,6 +16,7 @@ module Rack
     SCHEME_WHITELIST = %w(https http).freeze
 
     def initialize(env)
+      always_weak_etags(env)
       @env = env
     end
 
@@ -387,6 +388,13 @@ module Rack
       end
 
   private
+
+    def always_weak_etags(env)
+      if not env['HTTP_IF_NONE_MATCH'].start_with?("W/")
+        env['HTTP_IF_NONE_MATCH'] = "W/" + env['HTTP_IF_NONE_MATCH']
+      end
+    end
+
     def strip_doublequotes(s)
       if s[0] == ?" && s[-1] == ?"
         s[1..-2]
