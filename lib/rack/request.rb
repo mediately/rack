@@ -389,9 +389,10 @@ module Rack
   private
 
     def force_weak_etag(env)
-      if not env['HTTP_IF_NONE_MATCH'].start_with?("W/")
-        env['HTTP_IF_NONE_MATCH'] = "W/" + env['HTTP_IF_NONE_MATCH']
-      end
+      etag_hsh       = env['HTTP_IF_NONE_MATCH']
+      is_strong_etag = etag_hsh && !etag_hsh.start_with?("W/")
+      if is_strong_etag
+        env['HTTP_IF_NONE_MATCH'] = "W/" + etag_hsh
       env
     end
 
