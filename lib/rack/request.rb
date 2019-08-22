@@ -394,6 +394,7 @@ module Rack
       if is_strong_etag
         env['HTTP_IF_NONE_MATCH'] = "W/" + etag_hsh
       end
+      env
     end
 
     def strip_doublequotes(s)
